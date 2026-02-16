@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-browser": {
+      "version": "0.2.0",
+      "installedAt": 1770803375381
+    },
+    "Github": {
+      "version": "1.0.0",
+      "installedAt": 1771148368801
+    },
+    "diagram-generator": {
+      "version": "1.1.1",
+      "installedAt": 1771149859782
+    },
+    "github": {
+      "version": "1.0.0",
+      "installedAt": 1771165585960
+    }
+  }
+}
