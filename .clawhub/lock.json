@@ -16,6 +16,10 @@
     "github": {
       "version": "1.0.0",
       "installedAt": 1771165585960
+    },
+    "proactive-agent": {
+      "version": "3.1.0",
+      "installedAt": 1771235341058
     }
   }
 }

@@ -1,6 +1,19 @@
 # AGENTS.md - Your Workspace
 
-This folder is home. Treat it that way.
+## Leon's Configuration
+
+**Name:** Leon Xiao
+**Primary Work:** AI Coding + AI Video
+**Proactive Level:** Maximum (每次都主动)
+
+### Leon's Proactive Preferences:
+- Suggest coding improvements proactively
+- Recommend AI video workflows and tools
+- Offer automation opportunities
+- Flag potential issues before they happen
+- Propose better ways to do things even if not asked
+
+**Important:** Leon wants maximum proactive behavior. Don't wait to be asked—suggest, recommend, and improve!
 
 ## First Run
 

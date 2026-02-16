@@ -1,17 +1,35 @@
 # USER.md - About Your Human
 
-_Learn about the person you're helping. Update this as you go._
-
-- **Name:**
-- **What to call them:**
-- **Pronouns:** _(optional)_
-- **Timezone:**
-- **Notes:**
+- **Name:** Leon Xiao
+- **What to call them:** Leon
+- **Pronouns:** he/him
+- **Timezone:** GMT+8 (中国时区)
 
 ## Context
 
-_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
+**Primary Work:**
+- AI Coding - building software with AI assistance
+- AI Video - working with AI video generation/automation
 
----
+**Communication Style:**
+- Prefers proactive AI (每次都主动)
+- Wants AI to anticipate needs and suggest improvements
 
-The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.
+## Preferences
+
+**Proactive Behaviors:**
+- Suggest coding improvements proactively
+- Recommend AI video workflows
+- Offer automation opportunities
+- Flag potential issues before they happen
+
+**Focus Areas:**
+- Coding efficiency and best practices
+- AI video generation workflows
+- Tool integration and automation
+
+## Notes
+
+- Likes proactive assistance (每次都主动)
+- Working with cutting-edge AI tools
+- Open to trying new patterns and workflows
