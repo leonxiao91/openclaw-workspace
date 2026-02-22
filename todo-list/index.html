@@ -700,20 +700,25 @@
                     <button class="btn btn-primary" onclick="addTask()">添加</button>
                 </div>
                 <div class="task-options">
-                    <label class="task-option" id="optionDue" onclick="toggleOption('due')">
-                        <input type="checkbox" id="checkDue">
-                        <span>📅 截止日期</span>
-                        <input type="date" class="date-picker" id="dueDatePicker" onchange="handleDueDateChange()">
-                    </label>
-                    <label class="task-option" id="optionReminder" onclick="toggleOption('reminder')">
-                        <input type="checkbox" id="checkReminder">
-                        <span>⏰ 提醒</span>
-                        <input type="datetime-local" class="date-picker" id="reminderDatePicker" onchange="handleReminderDateChange()">
-                    </label>
-                    <label class="task-option" id="optionImportant" onclick="toggleOption('important')">
-                        <input type="checkbox" id="checkImportant">
-                        <span>⭐ 重要</span>
-                    </label>
+                    <button type="button" class="task-option" id="optionDue" onclick="toggleOption('due')">
+                        <span id="dueIcon">📅</span> <span id="dueText">截止日期</span>
+                    </button>
+                    <button type="button" class="task-option" id="optionReminder" onclick="toggleOption('reminder')">
+                        <span id="reminderIcon">⏰</span> <span id="reminderText">提醒</span>
+                    </button>
+                    <button type="button" class="task-option" id="optionImportant" onclick="toggleOption('important')">
+                        <span id="importantIcon">⭐</span> <span>重要</span>
+                    </button>
+                </div>
+                <div id="datePickers" style="display:none; margin-top:12px; padding:12px; background:#f5f5f5; border-radius:8px;">
+                    <div style="margin-bottom:8px;">
+                        <label style="font-size:13px;color:#605e5c;">📅 截止日期: </label>
+                        <input type="date" id="dueDatePicker" style="padding:6px;border:1px solid #edebe9;border-radius:4px;" onchange="handleDueDateChange()">
+                    </div>
+                    <div>
+                        <label style="font-size:13px;color:#605e5c;">⏰ 提醒时间: </label>
+                        <input type="datetime-local" id="reminderDatePicker" style="padding:6px;border:1px solid #edebe9;border-radius:4px;" onchange="handleReminderDateChange()">
+                    </div>
                 </div>
             </div>
 
@@ -878,28 +883,47 @@
         function toggleOption(option) {
             currentOptions[option] = !currentOptions[option];
             const optionEl = document.getElementById(`option${option.charAt(0).toUpperCase() + option.slice(1)}`);
-            const checkbox = document.getElementById(`check${option.charAt(0).toUpperCase() + option.slice(1)}`);
             
             if (currentOptions[option]) {
                 optionEl.classList.add('active');
-                optionEl.classList.add('show-input');
-                checkbox.checked = true;
+                
+                // Show date pickers when due or reminder is clicked
+                if (option === 'due' || option === 'reminder') {
+                    document.getElementById('datePickers').style.display = 'block';
+                }
                 
                 if (option === 'due') {
                     const date = new Date();
                     date.setDate(date.getDate() + 1);
                     dueDate = date.toISOString().slice(0, 10);
                     document.getElementById('dueDatePicker').value = dueDate;
+                    document.getElementById('dueIcon').textContent = '✅';
                 } else if (option === 'reminder') {
                     const date = new Date();
                     date.setHours(date.getHours() + 1);
                     reminderTime = date.toISOString().slice(0, 16);
                     document.getElementById('reminderDatePicker').value = reminderTime;
+                    document.getElementById('reminderIcon').textContent = '✅';
+                } else if (option === 'important') {
+                    document.getElementById('importantIcon').textContent = '⭐';
                 }
             } else {
                 optionEl.classList.remove('active');
-                optionEl.classList.remove('show-input');
-                checkbox.checked = false;
+                
+                if (option === 'due') {
+                    document.getElementById('dueIcon').textContent = '📅';
+                    dueDate = '';
+                } else if (option === 'reminder') {
+                    document.getElementById('reminderIcon').textContent = '⏰';
+                    reminderTime = '';
+                } else if (option === 'important') {
+                    document.getElementById('importantIcon').textContent = '⭐';
+                }
+            }
+            
+            // Hide date pickers if neither due nor reminder is active
+            if (!currentOptions.due && !currentOptions.reminder) {
+                document.getElementById('datePickers').style.display = 'none';
             }
         }
 
@@ -915,13 +939,13 @@
             currentOptions = { due: false, reminder: false, important: false };
             document.querySelectorAll('.task-option').forEach(el => {
                 el.classList.remove('active');
-                el.classList.remove('show-input');
             });
-            document.getElementById('checkDue').checked = false;
-            document.getElementById('checkReminder').checked = false;
-            document.getElementById('checkImportant').checked = false;
+            document.getElementById('dueIcon').textContent = '📅';
+            document.getElementById('reminderIcon').textContent = '⏰';
+            document.getElementById('importantIcon').textContent = '⭐';
             document.getElementById('dueDatePicker').value = '';
             document.getElementById('reminderDatePicker').value = '';
+            document.getElementById('datePickers').style.display = 'none';
         }
 
         // Task Actions
