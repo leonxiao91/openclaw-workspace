@@ -23,8 +23,8 @@
 
         .container {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
             width: 100%;
             max-width: 500px;
             overflow: hidden;
@@ -51,7 +51,7 @@
         .stats {
             display: flex;
             justify-content: space-around;
-            padding: 15px;
+            padding: 20px;
             background: #f8f9ff;
             border-bottom: 1px solid #eee;
         }
@@ -61,34 +61,54 @@
         }
 
         .stat-number {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: #667eea;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .stat-number.bump {
+            transform: scale(1.2);
         }
 
         .stat-label {
             font-size: 12px;
             color: #666;
+            margin-top: 4px;
         }
 
         .input-section {
             padding: 20px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+            width: 100%;
         }
 
         .input-section input {
             flex: 1;
             padding: 14px 18px;
             border: 2px solid #eee;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 16px;
             outline: none;
-            transition: border-color 0.3s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .input-section input:focus {
             border-color: #667eea;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .input-section input.reminder-time {
+            flex: 0 0 auto;
+            width: 160px;
         }
 
         .input-section button {
@@ -96,133 +116,293 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .input-section button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .input-section button:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .reminder-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 8px;
+            cursor: pointer;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .reminder-toggle input {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+
+        .reminder-fields {
+            width: 100%;
+            display: none;
+            gap: 12px;
+            margin-top: 8px;
+            animation: slideDown 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .reminder-fields.show {
+            display: flex;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .filter-section {
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             padding: 0 20px 15px;
         }
 
         .filter-btn {
-            padding: 8px 16px;
+            padding: 10px 20px;
             border: none;
             background: #f0f0f0;
-            border-radius: 20px;
-            font-size: 13px;
+            border-radius: 24px;
+            font-size: 14px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .filter-btn:hover {
+            background: #e8e8e8;
+            transform: translateY(-2px);
         }
 
         .filter-btn.active {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
         .todo-list {
             list-style: none;
-            max-height: 400px;
+            max-height: 420px;
             overflow-y: auto;
+            padding: 0 10px;
         }
 
         .todo-item {
             display: flex;
             align-items: center;
-            padding: 16px 20px;
-            border-bottom: 1px solid #f0f0f0;
-            transition: background 0.2s;
+            padding: 16px 14px;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: itemEnter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        @keyframes itemEnter {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .todo-item:hover {
-            background: #fafafa;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .todo-item.completed {
+            background: #f8f9f8;
         }
 
         .todo-item.completed .todo-text {
             text-decoration: line-through;
-            color: #999;
+            color: #aaa;
+        }
+
+        .todo-item.reminder-set {
+            border-left: 4px solid #ff9f43;
         }
 
         .todo-checkbox {
-            width: 22px;
-            height: 22px;
-            border: 2px solid #667eea;
+            width: 24px;
+            height: 24px;
+            border: 2.5px solid #667eea;
             border-radius: 50%;
-            margin-right: 15px;
+            margin-right: 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
         }
 
-        .todo-item.completed .todo-checkbox {
+        .todo-checkbox::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
             background: #667eea;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .todo-item.completed .todo-checkbox::before {
+            transform: scale(1);
         }
 
         .todo-checkbox::after {
             content: '✓';
             color: white;
             font-size: 14px;
-            display: none;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .todo-item.completed .todo-checkbox::after {
-            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .todo-checkbox:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .todo-content {
+            flex: 1;
+            min-width: 0;
         }
 
         .todo-text {
-            flex: 1;
             font-size: 15px;
             color: #333;
             word-break: break-all;
+            transition: all 0.3s;
+        }
+
+        .todo-reminder-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #ff9f43;
+            margin-top: 6px;
+            padding: 3px 8px;
+            background: rgba(255, 159, 67, 0.1);
+            border-radius: 10px;
+        }
+
+        .todo-reminder-badge.overdue {
+            color: #ff5f5f;
+            background: rgba(255, 95, 95, 0.1);
         }
 
         .todo-delete {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border: none;
             background: #ff5f5f;
             color: white;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             opacity: 0;
-            transition: opacity 0.2s;
+            transform: scale(0.8);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .todo-item:hover .todo-delete {
             opacity: 1;
+            transform: scale(1);
+        }
+
+        .todo-delete:hover {
+            background: #ff4757;
+            transform: scale(1.1) !important;
         }
 
         .empty-state {
             text-align: center;
-            padding: 40px;
-            color: #999;
+            padding: 50px 20px;
+            color: #aaa;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .empty-state .icon {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 56px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .footer {
-            padding: 15px 20px;
+            padding: 18px 20px;
             text-align: center;
             color: #999;
             font-size: 12px;
             border-top: 1px solid #eee;
+        }
+
+        .notification-permission {
+            background: linear-gradient(135deg, #ff9f43 0%, #ff6b6b 100%);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .notification-permission:hover {
+            transform: scale(1.02);
+        }
+
+        .notification-permission.hidden {
+            display: none;
         }
     </style>
 </head>
@@ -233,6 +413,10 @@
             <div class="date" id="currentDate"></div>
         </div>
         
+        <div id="notificationPrompt" class="notification-permission" onclick="requestNotificationPermission()">
+            🔔 点击开启提醒通知
+        </div>
+
         <div class="stats">
             <div class="stat">
                 <div class="stat-number" id="totalCount">0</div>
@@ -249,8 +433,17 @@
         </div>
 
         <div class="input-section">
-            <input type="text" id="todoInput" placeholder="添加新任务...">
-            <button onclick="addTodo()">添加</button>
+            <div class="input-row">
+                <input type="text" id="todoInput" placeholder="添加新任务...">
+                <button onclick="addTodo()">添加</button>
+            </div>
+            <label class="reminder-toggle">
+                <input type="checkbox" id="enableReminder" onchange="toggleReminderFields()">
+                <span>设置提醒</span>
+            </label>
+            <div class="reminder-fields" id="reminderFields">
+                <input type="datetime-local" id="reminderTime" class="reminder-time">
+            </div>
         </div>
 
         <div class="filter-section">
@@ -269,6 +462,60 @@
     <script>
         let todos = JSON.parse(localStorage.getItem('todos')) || [];
         let currentFilter = 'all';
+        let notificationPermission = Notification.permission;
+
+        // 检查通知权限
+        function checkNotificationPermission() {
+            const prompt = document.getElementById('notificationPrompt');
+            if (notificationPermission === 'granted') {
+                prompt.classList.add('hidden');
+            }
+        }
+
+        // 请求通知权限
+        async function requestNotificationPermission() {
+            if ('Notification' in window) {
+                notificationPermission = await Notification.requestPermission();
+                checkNotificationPermission();
+            }
+        }
+
+        // 发送通知
+        function sendNotification(todo) {
+            if (notificationPermission === 'granted') {
+                const notification = new Notification('📝 Todo List 提醒', {
+                    body: todo.text,
+                    icon: '📝',
+                    tag: `todo-${todo.id}`
+                });
+                
+                notification.onclick = () => {
+                    window.focus();
+                    notification.close();
+                };
+            }
+        }
+
+        // 检查提醒
+        function checkReminders() {
+            const now = new Date();
+            todos.forEach(todo => {
+                if (todo.reminder && !todo.completed) {
+                    const reminderTime = new Date(todo.reminder);
+                    const timeDiff = reminderTime - now;
+                    
+                    // 如果提醒时间在过去1分钟内且未提醒过
+                    if (timeDiff <= 0 && timeDiff > -60000 && !todo.reminderSent) {
+                        sendNotification(todo);
+                        todo.reminderSent = true;
+                        saveTodos();
+                    }
+                }
+            });
+        }
+
+        // 每30秒检查一次提醒
+        setInterval(checkReminders, 30000);
 
         function saveTodos() {
             localStorage.setItem('todos', JSON.stringify(todos));
@@ -278,16 +525,32 @@
         function addTodo() {
             const input = document.getElementById('todoInput');
             const text = input.value.trim();
+            const enableReminder = document.getElementById('enableReminder').checked;
+            const reminderTime = document.getElementById('reminderTime').value;
             
             if (text) {
-                todos.unshift({
+                const newTodo = {
                     id: Date.now(),
                     text: text,
                     completed: false,
-                    createdAt: new Date().toISOString()
-                });
+                    createdAt: new Date().toISOString(),
+                    reminder: enableReminder && reminderTime ? new Date(reminderTime).toISOString() : null,
+                    reminderSent: false
+                };
+                
+                todos.unshift(newTodo);
                 input.value = '';
+                document.getElementById('enableReminder').checked = false;
+                document.getElementById('reminderTime').value = '';
+                document.getElementById('reminderFields').classList.remove('show');
                 saveTodos();
+                
+                // 动画反馈
+                const statNumbers = document.querySelectorAll('.stat-number');
+                statNumbers.forEach(el => {
+                    el.classList.add('bump');
+                    setTimeout(() => el.classList.remove('bump'), 300);
+                });
             }
         }
 
@@ -295,6 +558,9 @@
             const todo = todos.find(t => t.id === id);
             if (todo) {
                 todo.completed = !todo.completed;
+                if (todo.completed) {
+                    todo.reminderSent = true;
+                }
                 saveTodos();
             }
         }
@@ -311,6 +577,31 @@
             });
             event.target.classList.add('active');
             renderTodos();
+        }
+
+        function toggleReminderFields() {
+            const checkbox = document.getElementById('enableReminder');
+            const fields = document.getElementById('reminderFields');
+            if (checkbox.checked) {
+                fields.classList.add('show');
+                // 设置默认时间为现在+1小时
+                const now = new Date();
+                now.setHours(now.getHours() + 1);
+                document.getElementById('reminderTime').value = now.toISOString().slice(0, 16);
+            } else {
+                fields.classList.remove('show');
+            }
+        }
+
+        function formatReminderTime(isoString) {
+            const date = new Date(isoString);
+            const now = new Date();
+            const isOverdue = date < now;
+            
+            const timeStr = date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+            const dateStr = date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+            
+            return { timeStr, dateStr, isOverdue };
         }
 
         function renderTodos() {
@@ -331,13 +622,29 @@
                     </li>
                 `;
             } else {
-                list.innerHTML = filteredTodos.map(todo => `
-                    <li class="todo-item ${todo.completed ? 'completed' : ''}">
-                        <div class="todo-checkbox" onclick="toggleTodo(${todo.id})"></div>
-                        <span class="todo-text">${escapeHtml(todo.text)}</span>
-                        <button class="todo-delete" onclick="deleteTodo(${todo.id})">×</button>
-                    </li>
-                `).join('');
+                list.innerHTML = filteredTodos.map((todo, index) => {
+                    let reminderBadge = '';
+                    if (todo.reminder && !todo.completed) {
+                        const { timeStr, dateStr, isOverdue } = formatReminderTime(todo.reminder);
+                        reminderBadge = `
+                            <div class="todo-reminder-badge ${isOverdue ? 'overdue' : ''}">
+                                ⏰ ${dateStr} ${timeStr}
+                            </div>
+                        `;
+                    }
+                    
+                    return `
+                        <li class="todo-item ${todo.completed ? 'completed' : ''} ${todo.reminder ? 'reminder-set' : ''}" 
+                            style="animation-delay: ${index * 0.05}s">
+                            <div class="todo-checkbox" onclick="toggleTodo(${todo.id})"></div>
+                            <div class="todo-content">
+                                <div class="todo-text">${escapeHtml(todo.text)}</div>
+                                ${reminderBadge}
+                            </div>
+                            <button class="todo-delete" onclick="deleteTodo(${todo.id})">×</button>
+                        </li>
+                    `;
+                }).join('');
             }
 
             updateStats();
@@ -369,6 +676,8 @@
         });
 
         renderTodos();
+        checkNotificationPermission();
+        checkReminders(); // 页面加载时检查一次
     </script>
 </body>
 </html>
