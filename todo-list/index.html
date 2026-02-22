@@ -739,6 +739,31 @@
         </div>
     </div>
 
+    <!-- Edit Task Modal -->
+    <div class="modal-overlay" id="editTaskModal">
+        <div class="modal">
+            <h3 class="modal-title">编辑任务</h3>
+            <input type="hidden" id="editTaskId">
+            <input type="text" class="modal-input" id="editTaskTitle" placeholder="任务标题">
+            <div style="margin-bottom:12px;">
+                <label style="font-size:13px;color:#605e5c;display:block;margin-bottom:4px;">📅 截止日期</label>
+                <input type="date" id="editDueDate" style="width:100%;padding:10px;border:1px solid #edebe9;border-radius:4px;">
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="font-size:13px;color:#605e5c;display:block;margin-bottom:4px;">⏰ 提醒时间</label>
+                <input type="datetime-local" id="editReminderTime" style="width:100%;padding:10px;border:1px solid #edebe9;border-radius:4px;">
+            </div>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:16px;cursor:pointer;">
+                <input type="checkbox" id="editImportant" style="width:18px;height:18px;">
+                <span>⭐ 标记为重要</span>
+            </label>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="hideEditTaskModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveEditedTask()">保存</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Data
         let data = JSON.parse(localStorage.getItem('todoData')) || {
@@ -958,6 +983,35 @@
             }
         }
 
+        function editTask(id) {
+            const task = data.tasks.find(t => t.id === id);
+            if (task) {
+                document.getElementById('editTaskId').value = task.id;
+                document.getElementById('editTaskTitle').value = task.title;
+                document.getElementById('editDueDate').value = task.due || '';
+                document.getElementById('editReminderTime').value = task.reminder || '';
+                document.getElementById('editImportant').checked = task.important;
+                document.getElementById('editTaskModal').classList.add('show');
+            }
+        }
+
+        function saveEditedTask() {
+            const id = parseInt(document.getElementById('editTaskId').value);
+            const task = data.tasks.find(t => t.id === id);
+            if (task) {
+                task.title = document.getElementById('editTaskTitle').value.trim();
+                task.due = document.getElementById('editDueDate').value || null;
+                task.reminder = document.getElementById('editReminderTime').value || null;
+                task.important = document.getElementById('editImportant').checked;
+                saveData();
+                hideEditTaskModal();
+            }
+        }
+
+        function hideEditTaskModal() {
+            document.getElementById('editTaskModal').classList.remove('show');
+        }
+
         function toggleImportant(id) {
             const task = data.tasks.find(t => t.id === id);
             if (task) {
@@ -1099,6 +1153,8 @@
                             <div class="task-meta">${tags}</div>
                         </div>
                         <div class="task-actions">
+                            <button class="task-action-btn" 
+                                    onclick="event.stopPropagation(); editTask(${task.id})" title="编辑">✏️</button>
                             <button class="task-action-btn star ${task.important ? 'active' : ''}" 
                                     onclick="event.stopPropagation(); toggleImportant(${task.id})">⭐</button>
                             <button class="task-action-btn delete" 
