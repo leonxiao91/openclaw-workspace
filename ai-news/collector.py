@@ -48,17 +48,22 @@ CONFIG = {
             "url": "https://venturebeat.com/category/ai/feed/",
             "enabled": True
         },
-        # AI 知名博主 (Substack)
+        # AI 博主
+        "karpathy": {
+            "url": "https://karpathy.github.io/feed.xml",
+            "enabled": True
+        },
+        "jay_alammar": {
+            "url": "https://newsletter.languagemodels.co/feed",
+            "enabled": True
+        },
+        "sebastian_ruder": {
+            "url": "https://www.ruder.io/rss/",
+            "enabled": True
+        },
+        # AI news 聚合
         "AINews": {
             "url": "https://AINews.substack.com/feed",
-            "enabled": True
-        },
-        "the_ai_breaker": {
-            "url": "https://theaibreaker.com/feed/",
-            "enabled": True
-        },
-        "interconnects": {
-            "url": "https://interconnects.ai/feed/",
             "enabled": True
         }
     }
