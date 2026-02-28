@@ -20,26 +20,45 @@ CONFIG = {
     "github_repo": "leonxiao91/openclaw-workspace",
     "github_branch": "main",
     "news_dir": "ai-news",
-    "feishu_webhook": os.environ.get("FEISHU_WEBHOOK", ""),  # 可选
+    "feishu_webhook": os.environ.get("FEISHU_WEBHOOK", ""),
     "sources": {
+        # 主流AI公司博客
         "hackernews": {
             "url": "https://hn.algolia.com/api/v1/search_by_date?query=ai%20OR%20llm%20OR%20openai%20OR%20anthropic%20OR%20claude%20OR%20machine%20learning&tags=story&hitsPerPage=20",
-            "enabled": True
-        },
-        "anthropic_blog": {
-            "url": "https://www.anthropic.com/blog/rss.xml",
             "enabled": True
         },
         "openai_blog": {
             "url": "https://openai.com/blog/rss.xml",
             "enabled": True
         },
+        "anthropic_news": {
+            "url": "https://www.anthropic.com/news/rss.xml",
+            "enabled": True
+        },
         "deepmind_blog": {
             "url": "https://deepmind.google/blog/rss.xml",
             "enabled": True
         },
+        # 科技媒体
         "techcrunch_ai": {
             "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+            "enabled": True
+        },
+        "venturebeat_ai": {
+            "url": "https://venturebeat.com/category/ai/feed/",
+            "enabled": True
+        },
+        # AI 知名博主 (Substack)
+        "AINews": {
+            "url": "https://AINews.substack.com/feed",
+            "enabled": True
+        },
+        "the_ai_breaker": {
+            "url": "https://theaibreaker.com/feed/",
+            "enabled": True
+        },
+        "interconnects": {
+            "url": "https://interconnects.ai/feed/",
             "enabled": True
         }
     }
@@ -217,8 +236,34 @@ def main():
     
     print(f"✅ 已保存到 {file_path}")
     
-    # 返回内容供后续处理
-    return md, str(file_path)
+    # 生成简洁摘要用于飞书
+    summary = format_feishu_message(all_news, date)
+    
+    return md, summary, str(file_path)
+
+def format_feishu_message(news: List[Dict], date: str) -> str:
+    """格式化飞书消息"""
+    msg = f"# 🤖 AI资讯每日推送 - {date}\n\n"
+    
+    # 按来源分组
+    by_source = {}
+    for item in news:
+        src = item.get("source", "Other")
+        if src not in by_source:
+            by_source[src] = []
+        by_source[src].append(item)
+    
+    # 输出每来源前3条
+    for source, items in list(by_source.items())[:5]:
+        msg += f"### 📰 {source}\n"
+        for item in items[:3]:
+            title = item["title"][:60] + "..." if len(item["title"]) > 60 else item["title"]
+            url = item["url"]
+            msg += f"- [{title}]({url})\n"
+        msg += "\n"
+    
+    msg += "---\n*自动收集于 ai-news/{date}*"
+    return msg
 
 if __name__ == "__main__":
     main()
