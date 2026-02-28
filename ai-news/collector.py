@@ -31,10 +31,6 @@ CONFIG = {
             "url": "https://openai.com/blog/rss.xml",
             "enabled": True
         },
-        "anthropic_news": {
-            "url": "https://www.anthropic.com/news/rss.xml",
-            "enabled": True
-        },
         "deepmind_blog": {
             "url": "https://deepmind.google/blog/rss.xml",
             "enabled": True
@@ -48,8 +44,8 @@ CONFIG = {
             "url": "https://venturebeat.com/category/ai/feed/",
             "enabled": True
         },
-        # AI 博主
-        "karpathy": {
+        # AI 博主博客
+        "karpathy_blog": {
             "url": "https://karpathy.github.io/feed.xml",
             "enabled": True
         },
