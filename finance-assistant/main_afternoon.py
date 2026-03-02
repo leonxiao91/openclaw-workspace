@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+"""
+午间任务 - 14:40 中国时间
+分析市场并发送投资建议
+"""
+
+import asyncio
+import os
+import sys
+
+# 添加当前目录到路径
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from analyzer import MarketAnalyzer
+from sender import format_afternoon_analysis, FeishuSender
+
+USER_ID = os.environ.get("FEISHU_USER_ID", "ou_532375939ab4ab7fa3a503c6f6a207e2")
+
+async def main():
+    print("=" * 50)
+    print("📊 午间市场分析任务启动")
+    print("=" * 50)
+    
+    # 1. 分析市场
+    analyzer = MarketAnalyzer()
+    analysis_data = await analyzer.analyze()
+    
+    # 2. 格式化消息
+    message = format_afternoon_analysis(analysis_data)
+    print("\n消息内容:")
+    print(message[:500] + "...")
+    
+    # 3. 发送到飞书
+    sender = FeishuSender()
+    success = await sender.send_message(USER_ID, message)
+    
+    if success:
+        print("\n✅ 分析发送成功!")
+    else:
+        print("\n❌ 分析发送失败")
+    
+    return success
+
+if __name__ == "__main__":
+    result = asyncio.run(main())
+    sys.exit(0 if result else 1)
