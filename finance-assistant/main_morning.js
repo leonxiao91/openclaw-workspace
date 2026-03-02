@@ -4,38 +4,40 @@
  */
 
 const FinanceNewsCollector = require('./collector');
-const { FeishuSender, formatMorningNews } = require('./sender');
 
 async function main() {
-  console.log('='.repeat(50));
-  console.log('📈 早间金融简报任务启动');
-  console.log('='.repeat(50));
+  console.log('📈 早间金融简报');
+  console.log('---');
 
   // 1. 收集新闻
   const collector = new FinanceNewsCollector();
   const newsData = await collector.collectAll();
 
   // 2. 格式化消息
-  const message = formatMorningNews(newsData);
-  console.log('\n消息内容:');
-  console.log(message.substring(0, 500) + '...');
+  const now = new Date();
+  const news = newsData.news || [];
+  
+  const lines = [
+    '📈 **今日金融早报**',
+    `*${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日*`,
+    '',
+    '### 🔥 热点新闻',
+    ''
+  ];
 
-  // 3. 发送到飞书
-  const sender = new FeishuSender();
-  const success = await sender.sendMessage(message);
-
-  if (success) {
-    console.log('\n✅ 早报发送成功!');
-  } else {
-    console.log('\n❌ 早报发送失败');
+  for (let i = 0; i < Math.min(news.length, 8); i++) {
+    const n = news[i];
+    const title = (n.title || '').substring(0, 40);
+    const source = n.source || '';
+    lines.push(`${i+1}. ${title}... [${source}]`);
   }
 
-  return success;
+  lines.push('');
+  lines.push('⚠️ *以上仅供参考，不构成投资建议*');
+
+  const message = lines.join('\n');
+  
+  console.log(message);
 }
 
-main().then(result => {
-  process.exit(result ? 0 : 1);
-}).catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+main().catch(console.error);

@@ -4,38 +4,53 @@
  */
 
 const MarketAnalyzer = require('./analyzer');
-const { FeishuSender, formatAfternoonAnalysis } = require('./sender');
 
 async function main() {
-  console.log('='.repeat(50));
-  console.log('📊 午间市场分析任务启动');
-  console.log('='.repeat(50));
+  console.log('📊 午间市场分析');
+  console.log('---');
 
   // 1. 分析市场
   const analyzer = new MarketAnalyzer();
   const analysisData = await analyzer.analyze();
 
   // 2. 格式化消息
-  const message = formatAfternoonAnalysis(analysisData);
-  console.log('\n消息内容:');
-  console.log(message.substring(0, 500) + '...');
+  const fundFlow = analysisData.fundFlow || {};
+  const net = fundFlow.net || 0;
+  const trend = analysisData.trend || '未知';
+  const recommendation = analysisData.recommendation || '';
+  
+  const netStr = net > 0 ? `${(net/1e8).toFixed(1)}亿` : `${(net/1e8).toFixed(1)}亿`;
+  const now = new Date();
 
-  // 3. 发送到飞书
-  const sender = new FeishuSender();
-  const success = await sender.sendMessage(message);
+  const lines = [
+    '📊 **午间市场分析**',
+    `*${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}*`,
+    '',
+    `**资金流向**: ${netStr}`,
+    `**市场趋势**: ${trend}`,
+    '',
+    '### 💰 投资建议',
+    '',
+    recommendation,
+    '',
+    '### 📈 热门板块',
+    ''
+  ];
 
-  if (success) {
-    console.log('\n✅ 分析发送成功!');
-  } else {
-    console.log('\n❌ 分析发送失败');
+  const sectorFlow = analysisData.sectorFlow || [];
+  for (const s of sectorFlow.slice(0, 5)) {
+    const name = s.name || '';
+    const change = s.change || 0;
+    const emoji = change > 0 ? '🟢' : '🔴';
+    lines.push(`${emoji} ${name}: ${change.toFixed(2)}%`);
   }
 
-  return success;
+  lines.push('');
+  lines.push('⚠️ *以上仅供参考，不构成投资建议*');
+
+  const message = lines.join('\n');
+  
+  console.log(message);
 }
 
-main().then(result => {
-  process.exit(result ? 0 : 1);
-}).catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+main().catch(console.error);
